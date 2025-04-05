@@ -60,6 +60,7 @@ jobs:
             /m `
             /p:Configuration="release" `
             /p:Platform="x64" `
+            /p:RuntimeIdentifier="win-x64" `
             /p:AppxBundlePlatforms="x64|ARM64" `
             /p:AppxBundle=Never `
             /p:UapAppxPackageBuildMode=StoreUpload `
@@ -71,6 +72,7 @@ jobs:
             /m `
             /p:Configuration="release" `
             /p:Platform="ARM64" `
+            /p:RuntimeIdentifier="win-ARM64" `
             /p:AppxBundle=Never `
             /p:AppxBundlePlatforms="x64|ARM64" `
             /p:UapAppxPackageBuildMode=StoreUpload `
