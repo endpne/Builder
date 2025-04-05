@@ -1,0 +1,128 @@
+name: Windows Release Builder
+
+on:
+  push:
+    branches:
+      - windows/main
+      - windows/release
+      - windows/dev
+    tags:
+      - v**
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    env:
+      Solution_Name: iPlay
+      Project_Directory: iPlay.X
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: "ourfor/iPlay.X"
+          fetch-depth: 0
+          token: ${{ secrets.REPO_TOKEN }}
+
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v2
+
+      - uses: actions/cache@v4
+        with:
+          path: ~\.nuget\packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Decode and Import Certificate
+        run: |
+          $base64Data = "${{ secrets.CERTIFICATE_PFX }}"
+          $bytes = [Convert]::FromBase64String($base64Data)
+          $certificatePath = Join-Path -Path ${{ github.workspace }} -ChildPath signing_cert.pfx
+          [System.IO.File]::WriteAllBytes("$certificatePath", $bytes)
+          Import-PfxCertificate -FilePath "$certificatePath" -CertStoreLocation Cert:\CurrentUser\My -Password (ConvertTo-SecureString -String "${{ secrets.CERTIFICATE_PASSWORD }}" -Force -AsPlainText)
+        shell: pwsh
+
+      - name: Verify Certificate Installation
+        run: |
+          Get-ChildItem Cert:\LocalMachine\My | Where-Object { $_.Thumbprint -eq "028ACD7A6EF34F66E29087B84A40B6579187570B" }
+        shell: pwsh
+
+    # https://github.com/andrewleader/WindowsAppSDKGallery/blob/main/.github/workflows/dotnet-desktop.yml#L102
+      - name: Build store package
+        run: |
+          .\iPlay.Platform.Desktop\version.ps1
+          msbuild .\iPlay.Platform.Desktop\iPlay.Platform.Desktop.csproj `
+            /m `
+            /p:Configuration="release" `
+            /p:Platform="x64" `
+            /p:AppxBundlePlatforms="x64|ARM64" `
+            /p:AppxBundle=Never `
+            /p:UapAppxPackageBuildMode=StoreUpload `
+            /p:PackageOptionalProjectsInIdeBuilds=False `
+            /p:AppxPackageSigningEnabled=true `
+            /p:GenerateAppxPackageOnBuild=true `
+            --restore
+          msbuild .\iPlay.Platform.Desktop\iPlay.Platform.Desktop.csproj `
+            /m `
+            /p:Configuration="release" `
+            /p:Platform="ARM64" `
+            /p:AppxBundle=Never `
+            /p:AppxBundlePlatforms="x64|ARM64" `
+            /p:UapAppxPackageBuildMode=StoreUpload `
+            /p:PackageOptionalProjectsInIdeBuilds=False `
+            /p:AppxPackageSigningEnabled=true `
+            /p:GenerateAppxPackageOnBuild=true `
+            --restore
+          cd .\iPlay.Platform.Desktop
+          .\merge_appx.ps1
+        shell: pwsh
+
+      - name: Release Notes
+        run: |
+          echo "version_code=$(git rev-list --count HEAD)" >> $GITHUB_ENV
+          echo "build_id=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+          echo version_name="v1.0 $(git rev-parse --short HEAD)" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Upload to Onedrive
+        run: |
+          version_code="$(git rev-list --count HEAD)"
+          buildtime=$(date '+%Y%m%d.%H%M')
+          mkdir -p iPlay.Platform.Desktop/Publish
+          cp "iPlay.Platform.Desktop/AppPackages/iPlayX_1.0.${version_code}.0.msixbundle" iPlay.Platform.Desktop/Publish/
+          # python -m pip install requests
+          # python ./scripts/upload.py --url "https://drive.ourfor.top/od_bot/build/iPlay/1.0.${version_code}.0/iPlay_1.0.${version_code}.0.msixbundle" \
+          #   --file "$PWD/iPlay.Platform.Desktop/AppPackages/iPlayX_1.0.${version_code}.0.msixbundle" \
+          #   --token "${{ secrets.CLIENT_ID }}"
+        shell: bash
+      
+      - name: Submit to Microsoft Store
+        uses: ourfor/windows-store-action@1.0.5
+        with:
+          tenant-id: "f11cb049-47ea-4ac4-b157-de33439868de"
+          client-id: "${{ secrets.STORE_CLIENT_ID }}"
+          client-secret: "${{ secrets.STORE_CLIENT_SECRET }}"
+          package-path: "iPlay.Platform.Desktop/Publish"
+          app-id: "9NBZ2BXD4WFZ"
+          flight-id: "cc78bd2f-f625-4e26-aeff-2ca1b3c486ab"
+          delete-packages: false
+          packages-keep: true
+          skip-polling: true
+
+      - name: Remove Installed Certificate
+        if: always()
+        run: |
+          $thumbprint = "028ACD7A6EF34F66E29087B84A40B6579187570B"
+          $cert = Get-ChildItem Cert:\CurrentUser\My | Where-Object { $_.Thumbprint -eq $thumbprint }
+          if ($cert) {
+            Remove-Item -Path "Cert:\CurrentUser\My\$thumbprint" -Force
+            Write-Host "Certificate with thumbprint $thumbprint has been removed."
+          } else {
+            Write-Host "Certificate with thumbprint $thumbprint not found."
+          }
+        shell: pwsh
