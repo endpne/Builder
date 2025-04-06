@@ -10,6 +10,13 @@ on:
       - v**
   pull_request:
 
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Name of the branch"
+        required: false
+        default: ""
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
