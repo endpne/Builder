@@ -72,7 +72,7 @@ jobs:
             /m `
             /p:Configuration="release" `
             /p:Platform="ARM64" `
-            /p:RuntimeIdentifier="win-ARM64" `
+            /p:RuntimeIdentifier="win-arm64" `
             /p:AppxBundle=Never `
             /p:AppxBundlePlatforms="x64|ARM64" `
             /p:UapAppxPackageBuildMode=StoreUpload `
