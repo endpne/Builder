@@ -62,8 +62,8 @@ jobs:
     # https://github.com/andrewleader/WindowsAppSDKGallery/blob/main/.github/workflows/dotnet-desktop.yml#L102
       - name: Build store package
         run: |
-          .\iPlay.Platform.Desktop\version.ps1
-          msbuild .\iPlay.Platform.Desktop\iPlay.Platform.Desktop.csproj `
+          .\Desktop\version.ps1
+          msbuild .\Desktop\Desktop.csproj `
             /m `
             /p:Configuration="release" `
             /p:Platform="x64" `
@@ -75,7 +75,7 @@ jobs:
             /p:AppxPackageSigningEnabled=true `
             /p:GenerateAppxPackageOnBuild=true `
             --restore
-          msbuild .\iPlay.Platform.Desktop\iPlay.Platform.Desktop.csproj `
+          msbuild .\Desktop\Desktop.csproj `
             /m `
             /p:Configuration="release" `
             /p:Platform="ARM64" `
@@ -87,7 +87,7 @@ jobs:
             /p:AppxPackageSigningEnabled=true `
             /p:GenerateAppxPackageOnBuild=true `
             --restore
-          cd .\iPlay.Platform.Desktop
+          cd .\Desktop
           .\merge_appx.ps1
         shell: pwsh
 
@@ -102,11 +102,11 @@ jobs:
         run: |
           version_code="$(git rev-list --count HEAD)"
           buildtime=$(date '+%Y%m%d.%H%M')
-          mkdir -p iPlay.Platform.Desktop/Publish
-          cp "iPlay.Platform.Desktop/AppPackages/iPlayX_1.0.${version_code}.0.msixbundle" iPlay.Platform.Desktop/Publish/
+          mkdir -p Desktop/Publish
+          cp "Desktop/AppPackages/iPlayX_1.0.${version_code}.0.msixbundle" Desktop/Publish/
           # python -m pip install requests
           # python ./scripts/upload.py --url "https://drive.ourfor.top/od_bot/build/iPlay/1.0.${version_code}.0/iPlay_1.0.${version_code}.0.msixbundle" \
-          #   --file "$PWD/iPlay.Platform.Desktop/AppPackages/iPlayX_1.0.${version_code}.0.msixbundle" \
+          #   --file "$PWD/Desktop/AppPackages/iPlayX_1.0.${version_code}.0.msixbundle" \
           #   --token "${{ secrets.CLIENT_ID }}"
         shell: bash
       
@@ -116,7 +116,7 @@ jobs:
           tenant-id: "f11cb049-47ea-4ac4-b157-de33439868de"
           client-id: "${{ secrets.STORE_CLIENT_ID }}"
           client-secret: "${{ secrets.STORE_CLIENT_SECRET }}"
-          package-path: "iPlay.Platform.Desktop/Publish"
+          package-path: "Desktop/Publish"
           app-id: "9NBZ2BXD4WFZ"
           flight-id: "cc78bd2f-f625-4e26-aeff-2ca1b3c486ab"
           delete-packages: false
