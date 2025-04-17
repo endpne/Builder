@@ -50,6 +50,7 @@ jobs:
           unzip vlc4.0.0.zip
           rm -rf packages/VideoLAN.LibVLC.Windows.3.0.21/build
           mv build packages/VideoLAN.LibVLC.Windows.3.0.21/build
+        shell: bash
         
       - uses: actions/cache@v4
         with:
