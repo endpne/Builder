@@ -40,7 +40,8 @@ jobs:
 
       - name: Install deps
         run: |
-          nuget install X.Player\packages.config
+          # nuget install X.Player\packages.config
+          nuget restore X.Player\X.Player.vcxproj -OutputDirectory packages
         shell: pwsh
         
       - uses: actions/cache@v4
