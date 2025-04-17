@@ -43,6 +43,13 @@ jobs:
           # nuget install X.Player\packages.config
           nuget restore X.Player\X.Player.vcxproj -OutputDirectory packages
         shell: pwsh
+
+      - name: Install latest vlc
+        run: |
+          wget https://github.com/ourfor/VLCKit/releases/download/v4.0.0-win/vlc4.0.0.zip
+          unzip vlc4.0.0.zip
+          rm -rf packages/VideoLAN.LibVLC.Windows.3.0.21/build
+          mv build packages/VideoLAN.LibVLC.Windows.3.0.21/build
         
       - uses: actions/cache@v4
         with:
