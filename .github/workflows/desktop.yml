@@ -43,32 +43,6 @@ jobs:
           # nuget install X.Player\packages.config
           nuget restore X.Player\X.Player.vcxproj -OutputDirectory packages
         shell: pwsh
-
-      - name: Install latest vlc
-        run: |
-          Write-Host "Downloading VLC..."
-          $downloadUrl = "https://github.com/ourfor/VLCKit/releases/download/v4.0.0-win/vlc4.0.0.zip"
-          $outputFile = "vlc4.0.0.zip"
-          Invoke-WebRequest -Uri $downloadUrl -OutFile $outputFile
-          
-          # 解压缩文件
-          Write-Host "Extracting VLC..."
-          Expand-Archive -Path $outputFile -DestinationPath "." -Force
-          
-          # 删除旧的 build 文件夹
-          Write-Host "Removing old build folder..."
-          Remove-Item -Path "packages\VideoLAN.LibVLC.Windows.3.0.21\build" -Recurse -Force
-          
-          # 移动新的 build 文件夹
-          Write-Host "Moving new build folder..."
-          Move-Item -Path "build" -Destination "packages\VideoLAN.LibVLC.Windows.3.0.21\build"
-          
-          # 清理下载的压缩包
-          Write-Host "Cleaning up..."
-          Remove-Item -Path $outputFile -Force
-          
-          Write-Host "Task completed successfully!"
-        shell: pwsh
         
       - uses: actions/cache@v4
         with:
