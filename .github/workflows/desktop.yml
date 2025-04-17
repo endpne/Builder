@@ -118,8 +118,8 @@ jobs:
           client-secret: "${{ secrets.STORE_CLIENT_SECRET }}"
           package-path: "Desktop/Publish"
           app-id: "9NBZ2BXD4WFZ"
-          flight-id: "cc78bd2f-f625-4e26-aeff-2ca1b3c486ab"
-          # flight-id: "47fcb686-2a9d-437f-965f-1dcab3b37e31"
+          # flight-id: "cc78bd2f-f625-4e26-aeff-2ca1b3c486ab"
+          flight-id: "47fcb686-2a9d-437f-965f-1dcab3b37e31"
           delete-packages: false
           packages-keep: true
           skip-polling: true
