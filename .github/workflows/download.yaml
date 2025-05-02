@@ -1,0 +1,35 @@
+name: Downloader
+
+on: 
+  workflow_dispatch:
+    inputs:
+      source_url:
+        description: 'the url you want to download'
+        required: true
+      upload_path:
+        description: "the target path to upload"
+        required: true
+      upload_secret:
+        description: "the upload server access token"
+        required: true
+
+jobs:
+  params:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download using aria2c
+        if: ${{ inputs.source_url != '' }}
+        shell: bash
+        continue-on-error: true
+        run: |
+          apt install -y aria2
+          aria2c ${{ inputs.source_url }}
+      
+      - name: Upload to server
+        if: ${{ inputs.upload_path != '' }}
+        shell: bash
+        run: |
+          python -m pip install requests tqdm
+          wget https://drive.ourfor.top/tools/upload.py -O /tmp/upload.py
+          # upload all files in the current directory
+          ls | xargs -I % python /tmp/upload.py --url ${{ inputs.upload_path }}/% --token ${{ inputs.upload_secret }} --file %
