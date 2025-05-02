@@ -3,9 +3,9 @@ name: Windows Release Builder
 on:
   push:
     branches:
-      - windows/main
+      - windows/beta
       - windows/release
-      - windows/dev
+      - windows/nightly
     tags:
       - v**
   pull_request:
