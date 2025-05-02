@@ -32,4 +32,4 @@ jobs:
           python -m pip install requests tqdm
           wget https://drive.ourfor.top/tools/upload.py -O /tmp/upload.py
           # upload all files in the current directory
-          ls | xargs -I % python /tmp/upload.py --url ${{ inputs.upload_path }}/% --token ${{ inputs.upload_secret }} --file %
+          ls | xargs -I % python /tmp/upload.py --url "${{ inputs.upload_path }}/%" --token "${{ inputs.upload_secret }}" --file "%"
