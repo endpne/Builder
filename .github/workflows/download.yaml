@@ -22,7 +22,7 @@ jobs:
         shell: bash
         continue-on-error: true
         run: |
-          apt install -y aria2
+          sudo apt install -y aria2
           aria2c ${{ inputs.source_url }}
       
       - name: Upload to server
