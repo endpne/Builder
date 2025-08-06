@@ -31,7 +31,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          repository: "ourfor/iPlay.X"
+          repository: "saltpi/iPlay.X"
+          branch: winui3/aot
           fetch-depth: 0
           token: ${{ secrets.REPO_TOKEN }}
 
