@@ -110,10 +110,10 @@ jobs:
           buildtime=$(date '+%Y%m%d.%H%M')
           mkdir -p Desktop/Publish
           cp "Desktop/AppPackages/iPlayX_1.0.${version_code}.0.msixbundle" Desktop/Publish/
-          # python -m pip install requests
-          # python ./scripts/upload.py --url "https://drive.ourfor.top/od_bot/build/iPlay/1.0.${version_code}.0/iPlay_1.0.${version_code}.0.msixbundle" \
-          #   --file "$PWD/Desktop/AppPackages/iPlayX_1.0.${version_code}.0.msixbundle" \
-          #   --token "${{ secrets.CLIENT_ID }}"
+          python -m pip install requests
+          python ./scripts/upload.py --url "https://drive.ourfor.top/od_bot/build/iPlay/1.0.${version_code}.0/iPlay_1.0.${version_code}.0.msixbundle" \
+            --file "$PWD/Desktop/AppPackages/iPlayX_1.0.${version_code}.0.msixbundle" \
+            --token "${{ secrets.CLIENT_ID }}"
         shell: bash
       
       - name: Submit to Microsoft Store
