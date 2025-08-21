@@ -115,6 +115,7 @@ jobs:
           python ./scripts/upload.py --url "https://drive.ourfor.top/od_bot/build/iPlay/1.0.${version_code}.0/iPlay_1.0.${version_code}.0.msixbundle" \
             --file "$PWD/Desktop/AppPackages/iPlayX_1.0.${version_code}.0.msixbundle" \
             --token "${{ secrets.CLIENT_ID }}"
+          ls Desktop/Publish
         shell: bash
       
       - name: Submit to Microsoft Store
