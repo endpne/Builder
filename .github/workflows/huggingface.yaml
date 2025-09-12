@@ -27,4 +27,4 @@ jobs:
           wget https://drive.ourfor.top/tools/upload.py -O /tmp/upload.py
           # upload all files in the current directory
           find ${{ inputs.repo_id }} -type f | xargs -I % echo 'https://drive.ourfor.top/od_bot/model/%' > /tmp/url.txt
-          find ${{ inputs.repo_id }} -type f | xargs -I % python /tmp/upload.py --url "https://drive.ourfor.top/od_bot/model/%" --token "${{ secrets.upload_secret }}" --file "%"
+          find ${{ inputs.repo_id }} -type f | xargs -I % python /tmp/upload.py --url "https://drive.ourfor.top/od_bot/model/%" --token "${{ secrets.UPLOAD_SECRET }}" --file "%"
