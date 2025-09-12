@@ -28,7 +28,8 @@ jobs:
           rm -rf ${{ inputs.repo_id }}/.cache
           rm -rf ${{ inputs.repo_id }}/.git
           find ${{ inputs.repo_id }} -type f | xargs -I % echo 'https://drive.ourfor.top/od_bot/model/%' > url.txt
-          rclone --config rclone.conf -P --onedrive-chunk-size 100M --transfers=6 move ${{ inputs.repo_id }} OneDrive:/model/${{ inputs.repo_id }}
+          find ${{ inputs.repo_id }} -type f | xargs -I % python /tmp/upload.py --url "https://drive.ourfor.top/od_bot/model/%" --token "${{ secrets.UPLOAD_SECRET }}" --file "%"
+          # rclone --config rclone.conf -P --onedrive-chunk-size 100M --transfers=6 move ${{ inputs.repo_id }} OneDrive:/model/${{ inputs.repo_id }}
           
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.6.2
