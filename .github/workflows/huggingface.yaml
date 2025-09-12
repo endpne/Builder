@@ -27,7 +27,8 @@ jobs:
           rm -rf ${{ inputs.repo_id }}/.git
           python -m pip install requests tqdm
           wget https://drive.ourfor.top/tools/upload.py -O /tmp/upload.py
-          find ${{ inputs.repo_id }} -type f | xargs -I % echo 'https://drive.ourfor.top/od_bot/model/%' > url.txt
+          find ${{ inputs.repo_id }} -type f | xargs -I % echo 'https://drive.ourfor.top/od_bot/model/%\n out=%' > url.txt
+          # find ${{ inputs.repo_id }} -type f | xargs -I % echo 'https://drive.ourfor.top/od_bot/model/%' > url.txt
           find ${{ inputs.repo_id }} -type f | xargs -I % python /tmp/upload.py --url "https://drive.ourfor.top/od_bot/model/%" --token "${{ secrets.UPLOAD_SECRET }}" --file "%"
           # sudo -v ; curl https://rclone.org/install.sh | sudo bash
           # echo "${{ secrets.RCLONE_CONFIG }}" | base64 -d > rclone.conf
