@@ -18,7 +18,7 @@ jobs:
         run: |
           pip install -U "huggingface_hub[cli]"
           mkdir -p ${{ inputs.repo_id }}
-          huggingface-cli download ${{ inputs.repo_id }} --include "*" --local-dir ${{ inputs.repo_id }}
+          hf download ${{ inputs.repo_id }} --include "*" --local-dir ${{ inputs.repo_id }}
       
       - name: Upload using Rclone
         shell: bash
