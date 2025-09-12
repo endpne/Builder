@@ -28,5 +28,10 @@ jobs:
           # upload all files in the current directory
           rm -rf ${{ inputs.repo_id }}/.git
           rm -rf ${{ inputs.repo_id }}/.cache
-          find ${{ inputs.repo_id }} -type f | xargs -I % echo 'https://drive.ourfor.top/od_bot/model/%' > /tmp/url.txt
+          find ${{ inputs.repo_id }} -type f | xargs -I % echo 'https://drive.ourfor.top/od_bot/model/%' > url.txt
           find ${{ inputs.repo_id }} -type f | xargs -I % python /tmp/upload.py --url "https://drive.ourfor.top/od_bot/model/%" --token "${{ secrets.UPLOAD_SECRET }}" --file "%"
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          path: url.txt
