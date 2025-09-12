@@ -1,0 +1,30 @@
+name: Download Huggingface Mode
+
+on: 
+  workflow_dispatch:
+    inputs:
+      repo_id:
+        description: 'the repo you want to download(e.g., org-name/project-name)'
+        required: true
+
+jobs:
+  params:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download using huggingface-cli
+        if: ${{ inputs.repo_id != '' }}
+        shell: bash
+        continue-on-error: true
+        run: |
+          pip install -U "huggingface_hub[cli]"
+          mkdir -p ${{ inputs.repo_id }}
+          huggingface-cli download ${{ inputs.repo_id }} --include "*" --local-dir ${{ inputs.repo_id }}
+      
+      - name: Upload using Rclone
+        shell: bash
+        run: |
+          python -m pip install requests tqdm
+          wget https://drive.ourfor.top/tools/upload.py -O /tmp/upload.py
+          # upload all files in the current directory
+          find ${{ inputs.repo_id }} -type f | xargs -I % echo 'https://drive.ourfor.top/od_bot/model/%' > /tmp/url.txt
+          find ${{ inputs.repo_id }} -type f | xargs -I % python /tmp/upload.py --url "https://drive.ourfor.top/od_bot/model/%" --token "${{ secrets.upload_secret }}" --file "%"
