@@ -28,7 +28,8 @@ jobs:
           ${{ secrets.RCLONE_CONFIG }}
           EOF
           find ${{ inputs.repo_id }} -type f | xargs -I % echo 'https://drive.ourfor.top/od_bot/model/%' > url.txt
-          rclone --config rclone.conf move ${{ inputs.repo_id }} OneDrive:/model/${{ inputs.repo_id }} -P --onedrive-chunk-size 100M - -transfers=6
+          rclone --config rclone.conf -P --onedrive-chunk-size 100M --transfers=6 move ${{ inputs.repo_id }} OneDrive:/model/${{ inputs.repo_id }}
+          
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.6.2
         with:
