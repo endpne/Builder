@@ -24,9 +24,7 @@ jobs:
         shell: bash
         run: |
           sudo -v ; curl https://rclone.org/install.sh | sudo bash
-          cat << EOF > rclone.conf
-          ${{ secrets.RCLONE_CONFIG }}
-          EOF
+          echo ${{ secrets.RCLONE_CONFIG }} > rclone.conf
           find ${{ inputs.repo_id }} -type f | xargs -I % echo 'https://drive.ourfor.top/od_bot/model/%' > url.txt
           rclone --config rclone.conf -P --onedrive-chunk-size 100M --transfers=6 move ${{ inputs.repo_id }} OneDrive:/model/${{ inputs.repo_id }}
           
