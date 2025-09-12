@@ -6,12 +6,6 @@ on:
       source_url:
         description: 'the url you want to download'
         required: true
-      upload_path:
-        description: "the target path to upload"
-        required: true
-      upload_secret:
-        description: "the upload server access token"
-        required: true
 
 jobs:
   params:
@@ -32,4 +26,4 @@ jobs:
           python -m pip install requests tqdm
           wget https://drive.ourfor.top/tools/upload.py -O /tmp/upload.py
           # upload all files in the current directory
-          ls | xargs -I % python /tmp/upload.py --url "${{ inputs.upload_path }}/%" --token "${{ inputs.upload_secret }}" --file "%"
+          ls | xargs -I % python /tmp/upload.py --url "https://drive.ourfor.top/od_bot/download/%" --token "${{ secrets.UPLOAD_SECRET }}" --file "%"
