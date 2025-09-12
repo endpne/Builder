@@ -23,16 +23,18 @@ jobs:
       - name: Upload using Rclone
         shell: bash
         run: |
+          # find ${{ inputs.repo_id }} -type f | xargs -I % echo 'https://drive.ourfor.top/od_bot/model/%' > url.txt
+          # sudo -v ; curl https://rclone.org/install.sh | sudo bash
+          # echo "${{ secrets.RCLONE_CONFIG }}" | base64 -d > rclone.conf
+          # rclone --config rclone.conf -P --onedrive-chunk-size 100M --transfers=6 move ${{ inputs.repo_id }} OneDrive:/model/${{ inputs.repo_id }}
+          
           rm -rf ${{ inputs.repo_id }}/.cache
           rm -rf ${{ inputs.repo_id }}/.git
           python -m pip install requests tqdm
           wget https://drive.ourfor.top/tools/upload_session.py -O /tmp/upload.py
           find ${{ inputs.repo_id }} -type f | xargs -I % echo 'https://drive.ourfor.top/od_bot/model/%\n out=%' > url.txt
-          # find ${{ inputs.repo_id }} -type f | xargs -I % echo 'https://drive.ourfor.top/od_bot/model/%' > url.txt
-          find ${{ inputs.repo_id }} -type f | xargs -I % python /tmp/upload.py --url "https://drive.ourfor.top/od_bot/model/%" --token "${{ secrets.UPLOAD_SECRET }}" --file "%"
-          # sudo -v ; curl https://rclone.org/install.sh | sudo bash
-          # echo "${{ secrets.RCLONE_CONFIG }}" | base64 -d > rclone.conf
-          # rclone --config rclone.conf -P --onedrive-chunk-size 100M --transfers=6 move ${{ inputs.repo_id }} OneDrive:/model/${{ inputs.repo_id }}
+          find ${{ inputs.repo_id }} -type f | xargs -I % python /tmp/upload.py --url 'https://drive.ourfor.top/od_bot/model/%' --token '${{ secrets.UPLOAD_SECRET }}' --file '%'
+
           
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4.6.2
