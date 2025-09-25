@@ -20,12 +20,12 @@ jobs:
           tar -xvf ohos-sdk.tar.gz
           unzip ohos-sdk/linux/native-linux-x64-4.0.10.5-Release.zip
           unzip n8.0.zip
-          cp ohos/build.sh build.sh
-          cp ohos/aarch64-linux-ohos-clang ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
   
       - name: Build
         shell: bash
         run: |
+          cp ohos/build.sh build.sh
+          cp ohos/aarch64-linux-ohos-clang ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
           chmod +x ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
           chmod +x build.sh
           cd FFmpeg-n8.0
