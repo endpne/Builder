@@ -1,0 +1,18 @@
+[built-in options]
+buildtype = 'release'
+default_library = 'static'
+wrap_mode = 'nodownload'
+prefix = '/usr/local'
+[binaries]
+c = '/workspaces/Builder/ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang'
+cpp = '/workspaces/Builder/ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang'
+ar = 'llvm-ar'
+nm = 'llvm-nm'
+strip = 'llvm-strip'
+pkgconfig = 'pkg-config'
+pkg-config = 'pkg-config'
+[host_machine]
+system = 'harmonyos'
+cpu_family = '$cpu_family'
+cpu = '${CC%%-*}'
+endian = 'little'
