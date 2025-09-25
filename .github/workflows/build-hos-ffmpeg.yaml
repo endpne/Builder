@@ -18,9 +18,10 @@ jobs:
           wget https://gitee.com/link?target=http%3A%2F%2Fdownload.ci.openharmony.cn%2Fversion%2FMaster_Version%2FOpenHarmony_4.0.11.3_Mr%2F20230822_020105%2Fversion-Master_Version-OpenHarmony_4.0.11.3_Mr-20230822_020105-ohos-sdk-full.tar.gz -O ohos-sdk.tar.gz
           wget https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n8.0.zip
           tar -xvf ohos-sdk.tar.gz
+          unzip ohos-sdk/linux/native-linux-x64-4.0.10.5-Release.zip
           unzip n8.0.zip
-          cp Builder/ohos/build.sh build.sh
-          cp Builder/ohos/aarch64-linux-ohos-clang ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
+          cp ohos/build.sh build.sh
+          cp ohos/aarch64-linux-ohos-clang ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
   
       - name: Build
         shell: bash
