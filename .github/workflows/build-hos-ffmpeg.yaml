@@ -27,8 +27,11 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          cp Builder/ohos/build.sh build.sh
-          cp Builder/ohos/aarch64-linux-ohos-clang ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
+          ls
+          ls Builder
+          ls Builder/Builder
+          cp Builder/Builder/ohos/build.sh build.sh
+          cp Builder/Builder/ohos/aarch64-linux-ohos-clang ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
           chmod +x ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
           chmod +x build.sh
           cd FFmpeg-n8.0
