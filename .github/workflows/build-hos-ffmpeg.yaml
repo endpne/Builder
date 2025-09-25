@@ -28,10 +28,8 @@ jobs:
         shell: bash
         run: |
           ls
-          ls Builder
-          ls Builder/Builder
-          cp Builder/Builder/ohos/build.sh build.sh
-          cp Builder/Builder/ohos/aarch64-linux-ohos-clang ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
+          cp ohos/build.sh build.sh
+          cp ohos/aarch64-linux-ohos-clang ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
           chmod +x ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
           chmod +x build.sh
           cd FFmpeg-n8.0
