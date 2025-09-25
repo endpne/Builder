@@ -1,0 +1,17 @@
+#!/bin/bash
+bin_dir=`dirname "$0"`
+
+# 过滤掉 -march=aarch64 参数
+filtered_args=()
+for arg in "$@"; do
+    if [[ "$arg" != "-march=aarch64" ]]; then
+        filtered_args+=("$arg")
+    fi
+done
+
+if [ "$1" != "-cc1" ]; then
+    "$bin_dir/clang" --target=aarch64-linux-ohos "${filtered_args[@]}"
+else
+    # Target is already an argument.
+    "$bin_dir/clang" "${filtered_args[@]}"
+fi
