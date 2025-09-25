@@ -11,6 +11,9 @@ jobs:
   params:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
       - name: Download SDK
         shell: bash
         continue-on-error: true
@@ -24,8 +27,8 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          cp ohos/build.sh build.sh
-          cp ohos/aarch64-linux-ohos-clang ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
+          cp Builder/ohos/build.sh build.sh
+          cp Builder/ohos/aarch64-linux-ohos-clang ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
           chmod +x ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
           chmod +x build.sh
           cd FFmpeg-n8.0
