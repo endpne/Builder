@@ -5,7 +5,7 @@ set -x
 CPU=aarch64
 #so库输出目录
 OUTPUT=$(pwd)/harmonyos/$CPU
-OH_SDK=$(dirname)/ohos-sdk/linux
+OH_SDK=$(dirname $0)/ohos-sdk/linux
 # 编译环境
 SYSROOT=$OH_SDK/native/sysroot
 CC=$OH_SDK/native/llvm/bin/$CPU-linux-ohos-clang
