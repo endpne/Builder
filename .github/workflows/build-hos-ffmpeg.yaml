@@ -65,7 +65,6 @@ jobs:
             --disable-stripping
           
             make clean all
-          # 这里是定义用几个CPU编译
             make -j8
             make install
           }
@@ -92,11 +91,11 @@ jobs:
           fi
           EOF
   
-          chmod +x ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
-          chmod +x build.sh
       - name: Build
         shell: bash
         run: |
+          chmod +x ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
+          chmod +x build.sh
           cd FFmpeg-n8.0
           ../build.sh
           
