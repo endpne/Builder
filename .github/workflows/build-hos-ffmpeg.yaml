@@ -68,32 +68,32 @@ jobs:
           # 这里是定义用几个CPU编译
             make -j8
             make install
-        }
-        build
-        EOF
-
-        cat <<EOF > ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
-        #!/bin/bash
-        bin_dir=`dirname "$0"`
-        
-        # 过滤掉 -march=aarch64 参数
-        filtered_args=()
-        for arg in "$@"; do
-            if [[ "$arg" != "-march=aarch64" ]]; then
-                filtered_args+=("$arg")
-            fi
-        done
-        
-        if [ "$1" != "-cc1" ]; then
-            "$bin_dir/clang" --target=aarch64-linux-ohos "${filtered_args[@]}"
-        else
-            # Target is already an argument.
-            "$bin_dir/clang" "${filtered_args[@]}"
-        fi
-        EOF
-
-        chmod +x ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
-        chmod +x build.sh
+          }
+          build
+          EOF
+  
+          cat <<EOF > ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
+          #!/bin/bash
+          bin_dir=`dirname "$0"`
+          
+          # 过滤掉 -march=aarch64 参数
+          filtered_args=()
+          for arg in "$@"; do
+              if [[ "$arg" != "-march=aarch64" ]]; then
+                  filtered_args+=("$arg")
+              fi
+          done
+          
+          if [ "$1" != "-cc1" ]; then
+              "$bin_dir/clang" --target=aarch64-linux-ohos "${filtered_args[@]}"
+          else
+              # Target is already an argument.
+              "$bin_dir/clang" "${filtered_args[@]}"
+          fi
+          EOF
+  
+          chmod +x ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
+          chmod +x build.sh
       - name: Build
         shell: bash
         run: |
