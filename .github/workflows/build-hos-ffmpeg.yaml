@@ -21,75 +21,75 @@ jobs:
           unzip n8.0.zip
           
           cat <<EOF > build.sh
-set -x
-# 目标HarmonyOS版本
-# 编译arm64-v8a 配置CPU为aarch64
-# 编译armeabi-v7a 配置CPU为arm
-CPU=aarch64
-#so库输出目录
-OUTPUT=$(pwd)/harmonyos/$CPU
-OH_SDK=/workspaces/Builder/ohos-sdk/linux
-# 编译环境
-SYSROOT=$OH_SDK/native/sysroot
-CC=$OH_SDK/native/llvm/bin/$CPU-linux-ohos-clang
-STRIP=$OH_SDK/native/llvm/bin/llvm-strip
-LD=$OH_SDK/native/llvm/bin/$CPU-linux-ohos-clang
-OPTIMIZE_CFLAGS="-march=$CPU"
-HOST_CC=/usr/bin/clang
-HOST_LD=/usr/bin/ld
-HOST_LD_FLAG=-L/usr/lib
-function build
-{
-  ./configure \
-  --prefix=$OUTPUT \
-  --target-os=linux \
-  --cpu=$CPU \
-  --disable-asm \
-  --enable-cross-compile \
-  --disable-x86asm \
-  --enable-shared \
-  --enable-static \
-  --disable-doc \
-  --disable-htmlpages \
-  --disable-optimizations \
-  --cc=$CC \
-  --ld=$LD \
-  --strip=$STRIP \
-  --sysroot=$SYSROOT \
-  --host-cc=$HOST_CC \
-  --host-ld=$HOST_LD \
-  --host-os=linux \
-  --host-ldflags=$HOST_LD_FLAG \
-  --extra-cflags="-Os -fpic" \
-  --disable-vulkan \
-  --disable-stripping
-
-  make clean all
-# 这里是定义用几个CPU编译
-  make -j8
-  make install
-}
-build  
+          set -x
+          # 目标HarmonyOS版本
+          # 编译arm64-v8a 配置CPU为aarch64
+          # 编译armeabi-v7a 配置CPU为arm
+          CPU=aarch64
+          #so库输出目录
+          OUTPUT=$(pwd)/harmonyos/$CPU
+          OH_SDK=/workspaces/Builder/ohos-sdk/linux
+          # 编译环境
+          SYSROOT=$OH_SDK/native/sysroot
+          CC=$OH_SDK/native/llvm/bin/$CPU-linux-ohos-clang
+          STRIP=$OH_SDK/native/llvm/bin/llvm-strip
+          LD=$OH_SDK/native/llvm/bin/$CPU-linux-ohos-clang
+          OPTIMIZE_CFLAGS="-march=$CPU"
+          HOST_CC=/usr/bin/clang
+          HOST_LD=/usr/bin/ld
+          HOST_LD_FLAG=-L/usr/lib
+          function build
+          {
+            ./configure \
+            --prefix=$OUTPUT \
+            --target-os=linux \
+            --cpu=$CPU \
+            --disable-asm \
+            --enable-cross-compile \
+            --disable-x86asm \
+            --enable-shared \
+            --enable-static \
+            --disable-doc \
+            --disable-htmlpages \
+            --disable-optimizations \
+            --cc=$CC \
+            --ld=$LD \
+            --strip=$STRIP \
+            --sysroot=$SYSROOT \
+            --host-cc=$HOST_CC \
+            --host-ld=$HOST_LD \
+            --host-os=linux \
+            --host-ldflags=$HOST_LD_FLAG \
+            --extra-cflags="-Os -fpic" \
+            --disable-vulkan \
+            --disable-stripping
+          
+            make clean all
+          # 这里是定义用几个CPU编译
+            make -j8
+            make install
+        }
+        build
         EOF
 
         cat <<EOF > ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
-#!/bin/bash
-bin_dir=`dirname "$0"`
-
-# 过滤掉 -march=aarch64 参数
-filtered_args=()
-for arg in "$@"; do
-    if [[ "$arg" != "-march=aarch64" ]]; then
-        filtered_args+=("$arg")
-    fi
-done
-
-if [ "$1" != "-cc1" ]; then
-    "$bin_dir/clang" --target=aarch64-linux-ohos "${filtered_args[@]}"
-else
-    # Target is already an argument.
-    "$bin_dir/clang" "${filtered_args[@]}"
-fi
+        #!/bin/bash
+        bin_dir=`dirname "$0"`
+        
+        # 过滤掉 -march=aarch64 参数
+        filtered_args=()
+        for arg in "$@"; do
+            if [[ "$arg" != "-march=aarch64" ]]; then
+                filtered_args+=("$arg")
+            fi
+        done
+        
+        if [ "$1" != "-cc1" ]; then
+            "$bin_dir/clang" --target=aarch64-linux-ohos "${filtered_args[@]}"
+        else
+            # Target is already an argument.
+            "$bin_dir/clang" "${filtered_args[@]}"
+        fi
         EOF
 
         chmod +x ohos-sdk/linux/native/llvm/bin/aarch64-linux-ohos-clang
