@@ -1,4 +1,4 @@
-name: App build
+name: Build VLCKit
 
 on: 
   workflow_dispatch:
