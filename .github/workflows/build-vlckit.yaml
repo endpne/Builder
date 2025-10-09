@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: 🛠️ Checkout repository
         run: |
-          git clone https://code.videolan.org/videolan/VLCKit.git VLCKit
+          git clone https://github.com/saltpi/vlckit-sdk.git VLCKit
 
       - name: 🖥️ Select Xcode version
         run: |
