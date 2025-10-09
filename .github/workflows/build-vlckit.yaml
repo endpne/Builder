@@ -44,6 +44,10 @@ jobs:
           ./compileAndBuildVLCKit.sh ${{ matrix.build_args }}
           ./Packaging/create-distributable-package.sh ${{ matrix.package_args }}
 
+      - name: 🖥️ List artifact
+        run: |
+           ls .   
+
       - name: 📤 Upload ${{ matrix.platform }} Artifact
         uses: actions/upload-artifact@v4
         with:
