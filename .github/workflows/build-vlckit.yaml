@@ -1,0 +1,19 @@
+name: App build
+on: push
+
+jobs:
+  build_with_signing:
+    runs-on: macos-14
+    steps:
+      - name: 🛠️ Checkout repository
+        run: |
+          git clone https://code.videolan.org/videolan/VLCKit.git VLCKit
+
+      - name: 🖥️ Select Xcode version
+        run: |
+          ls /Applications/
+          sudo xcode-select --switch /Applications/Xcode.app
+            
+      - name: 🚀 Build app
+        run: |
+          ./compileAndBuildVLCKit.sh
