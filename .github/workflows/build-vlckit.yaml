@@ -8,56 +8,35 @@ on:
         required: false
 
 jobs:
-  prepare:
-    runs-on: macos-14
-    steps:
-      - name: 🛠️ Checkout repository
-        uses: actions/checkout@v4
-        with:
-          repository: saltpi/vlckit-sdk
-          path: VLCKit
-
-      - name: 🖥️ Select Xcode version
-        run: |
-          ls /Applications/
-
-      - name: 🏗️ Build base environment
-        run: |
-          cd VLCKit
-          ./compileAndBuildVLCKit.sh -x
-
-      - name: 💾 Save build environment
-        uses: actions/upload-artifact@v4
-        with:
-          name: vlc-base
-          path: VLCKit/
-          retention-days: 1
-
   build_platforms:
     runs-on: macos-14
-    needs: prepare
     strategy:
       matrix:
         platform: [macos, ios, tvos, watchos]
         include:
           - platform: macos
-            build_args: -f
-            package_args: -vm
+            build_args: "-x"
+            package_args: "-x"
+          - platform: xros
+            build_args: "-fi"
+            package_args: "-i"
           - platform: ios
-            build_args: -fi
-            package_args: -vi
+            build_args: "-f" 
+            package_args: "-vm"
           - platform: tvos
-            build_args: -ft
-            package_args: -vt
+            build_args: "-ft"
+            package_args: "-vt"
           - platform: watchos
-            build_args: -fw
-            package_args: -vw
+            build_args: "-fw"
+            package_args: "-vw"
     steps:
-      - name: 📥 Restore build environment
-        uses: actions/download-artifact@v4
-        with:
-          name: vlc-base
-          path: VLCKit
+      - name: 🛠️ Checkout repository
+        run: |
+          git clone https://github.com/saltpi/vlckit-sdk.git VLCKit
+
+      - name: 🖥️ Select Xcode version
+        run: |
+          ls /Applications/
 
       - name: 🚀 Build for ${{ matrix.platform }}
         run: |
@@ -82,6 +61,7 @@ jobs:
 
       - name: 📋 List built artifacts
         run: |
+          echo "=== All built artifacts ==="
           find artifacts -name "*.xz" -o -name "*.zip" | sort
-          echo "=== All artifacts ==="
+          echo "=== File details ==="
           ls -la artifacts/*/
