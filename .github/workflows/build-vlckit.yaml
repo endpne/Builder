@@ -25,7 +25,16 @@ jobs:
           cd VLCKit
           ./compileAndBuildVLCKit.sh -x
           ./Packaging/create-distributable-package.sh -vx
-          ls
+          ./compileAndBuildVLCKit.sh -f
+          ./Packaging/create-distributable-package.sh -vm
+          ./compileAndBuildVLCKit.sh -fi
+          ./Packaging/create-distributable-package.sh -vi
+          ./compileAndBuildVLCKit.sh -ft
+          ./Packaging/create-distributable-package.sh -vt
+          ./compileAndBuildVLCKit.sh -fw
+          ./Packaging/create-distributable-package.sh -vw
+          ls *.xz
+          ls *.zip
 
       - name: 📤 Upload a Build Artifact
         uses: actions/upload-artifact@v4.6.2
