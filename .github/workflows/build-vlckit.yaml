@@ -23,5 +23,6 @@ jobs:
       - name: 🚀 Build app
         run: |
           cd VLCKit
-          cd Packaging
-          ./buildAndDeployFrameworks.sh      
+          ./compileAndBuildVLCKit.sh -x
+          ./Packaging/create-distributable-package.sh -x
+          
