@@ -48,7 +48,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: VLCKit-${{ matrix.platform }}
-          path: VLCKit/VLCKit-${{ matrix.platform }}*.tar.xz
+          path: VLCKit-*.tar.xz
 
   list_artifacts:
     runs-on: macos-14
