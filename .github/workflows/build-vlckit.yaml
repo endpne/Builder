@@ -1,5 +1,11 @@
 name: App build
-on: push
+
+on: 
+  workflow_dispatch:
+    inputs:
+      repo_url:
+        description: 'vlckit source url you want to build'
+        required: false
 
 jobs:
   build_with_signing:
