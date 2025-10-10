@@ -12,7 +12,7 @@ jobs:
     runs-on: macos-14
     strategy:
       matrix:
-        platform: [macos, ios, tvos, watchos]
+        platform: [macos, xros, ios, tvos, watchos]
         include:
           - platform: macos
             build_args: "-x"
@@ -46,13 +46,14 @@ jobs:
 
       - name: 🖥️ List artifact
         run: |
-           ls .   
+           ls .
+           ls VLCKit/*
 
       - name: 📤 Upload ${{ matrix.platform }} Artifact
         uses: actions/upload-artifact@v4
         with:
           name: VLCKit-${{ matrix.platform }}
-          path: VLCKit-*.tar.xz
+          path: VLCKit/VLCKit-*.tar.xz
 
   list_artifacts:
     runs-on: macos-14
