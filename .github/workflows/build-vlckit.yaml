@@ -17,9 +17,9 @@ jobs:
           - platform: macos
             build_args: "-x"
             package_args: "-x"
-          - platform: xros
-            build_args: "-fi"
-            package_args: "-i"
+          # - platform: xros
+          #   build_args: "-fi"
+          #   package_args: "-i"
           - platform: ios
             build_args: "-f" 
             package_args: "-vm"
