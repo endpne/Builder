@@ -12,14 +12,11 @@ jobs:
     runs-on: macos-14
     strategy:
       matrix:
-        platform: [macos, ios, tvos, watchos]
+        platform: [macos, ios, tvos, watchos, xros]
         include:
           - platform: macos
             build_args: "-x"
             package_args: "-x"
-          # - platform: xros
-          #   build_args: "-fi"
-          #   package_args: "-i"
           - platform: ios
             build_args: "-f" 
             package_args: "-vm"
@@ -29,6 +26,9 @@ jobs:
           - platform: watchos
             build_args: "-fw"
             package_args: "-vw"
+          - platform: xros
+            build_args: "-fi"
+            package_args: "-i"
     steps:
       - name: 🛠️ Checkout repository
         run: |
@@ -40,9 +40,11 @@ jobs:
 
       - name: 🚀 Build for ${{ matrix.platform }}
         run: |
+          export VLC_VERSION="4.0"
           cd VLCKit
           ./compileAndBuildVLCKit.sh ${{ matrix.build_args }}
           ./Packaging/create-distributable-package.sh ${{ matrix.package_args }}
+          mv *.tar.xz VLCKit-${{ matrix.platform }}-${VLC_VERSION}-`date +%Y%m%d-%H%M`.tar.xz
 
       - name: 🖥️ List artifact
         run: |
