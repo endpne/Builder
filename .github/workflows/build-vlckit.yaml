@@ -12,7 +12,7 @@ jobs:
     runs-on: macos-14
     strategy:
       matrix:
-        platform: [macos, ios, tvos, watchos, xros]
+        platform: [macos, ios, tvos, watchos]
         include:
           - platform: macos
             build_args: "-x"
