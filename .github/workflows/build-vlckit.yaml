@@ -17,6 +17,9 @@ jobs:
           - platform: macos
             build_args: "-x"
             package_args: "-x"
+          - platform: xros
+            build_args: "-fi"
+            package_args: "-i"
           - platform: ios
             build_args: "-f" 
             package_args: "-vm"
@@ -26,9 +29,6 @@ jobs:
           - platform: watchos
             build_args: "-fw"
             package_args: "-vw"
-          - platform: xros
-            build_args: "-fi"
-            package_args: "-i"
     steps:
       - name: 🛠️ Checkout repository
         run: |
@@ -47,7 +47,7 @@ jobs:
       - name: 🖥️ List artifact
         run: |
            ls .
-           ls VLCKit/*
+           ls VLCKit
 
       - name: 📤 Upload ${{ matrix.platform }} Artifact
         uses: actions/upload-artifact@v4
