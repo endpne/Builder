@@ -81,3 +81,15 @@ jobs:
         with:
           name: VLCKitSPM
           path: ./*.xcframework
+
+      - name: Upload binary to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ format('{0}', env.BUILD_VERSION) }}
+          tag_name: ${{ format('v{0}', fromJSON('["0","1","2","3","4","5","6"]')[github.event.inputs.day-of-week || now().day] }}{{ now().year }}{{ now().month }}{{ now().day }} }}
+          files: |
+            *.xcframework.zip
+          prerelease: ${{ contains(env.RELEASE_VERSION, '-') }}
+          body_path: /tmp/RELEASE_NOTE.txt
+          generate_release_notes: true
+          fail_on_unmatched_files: true
