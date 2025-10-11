@@ -56,6 +56,8 @@ jobs:
           path: VLCKit/VLCKit-*.tar.xz
 
   list_artifacts:
+    permissions:
+      contents: write
     runs-on: macos-14
     needs: build_platforms
     steps:
