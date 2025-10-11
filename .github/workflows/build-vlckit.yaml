@@ -59,6 +59,9 @@ jobs:
     runs-on: macos-14
     needs: build_platforms
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
       - name: 📥 Download all artifacts
         uses: actions/download-artifact@v4
         with:
