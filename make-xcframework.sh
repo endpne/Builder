@@ -65,7 +65,7 @@ if [[ ${#frameworks[@]} -eq 0 ]]; then
 fi
 
 # 创建 XCFramework
-output_xcframework="VLCKitSPM.xcframework"
+output_xcframework="VLCKitSPM-All.xcframework"
 echo "创建 XCFramework: $output_xcframework"
 
 # 删除已存在的 XCFramework
@@ -79,3 +79,6 @@ xcodebuild -create-xcframework "${frameworks[@]}" -output "$output_xcframework"
 echo "✅ XCFramework 创建成功: $output_xcframework"
 
 codesign -fs - --deep *.xcframework
+
+zip -ry --symlinks VLCKitSPM-All.xcframework.zip VLCKitSPM-All.xcframework
+echo "✅ XCFramework 压缩成功: VLCKitSPM-All.xcframework.zip"
