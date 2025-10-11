@@ -73,6 +73,7 @@ jobs:
           find artifacts -name "*.xz" -o -name "*.zip" | sort
           echo "=== File details ==="
           ls -la artifacts/*/
+          find . -name "make-xcframework.sh"|xargs -I % chmod +x %
           find . -name "make-xcframework.sh"|bash
           
       - name: 📤 Upload VLCKit Artifact
