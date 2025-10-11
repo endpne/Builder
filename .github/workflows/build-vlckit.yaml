@@ -15,19 +15,19 @@ jobs:
         platform: [macos, ios, tvos, watchos, xros]
         include:
           - platform: macos
-            build_args: "-x"
+            build_args: "-rx"
             package_args: "-x"
           - platform: ios
-            build_args: "-f" 
+            build_args: "-rf" 
             package_args: "-vm"
           - platform: tvos
-            build_args: "-ft"
+            build_args: "-rft"
             package_args: "-vt"
           - platform: watchos
-            build_args: "-fw"
+            build_args: "-rfw"
             package_args: "-vw"
           - platform: xros
-            build_args: "-fi"
+            build_args: "-rfi"
             package_args: "-vi"
     steps:
       - name: 🛠️ Checkout repository
