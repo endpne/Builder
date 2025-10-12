@@ -29,7 +29,7 @@ jobs:
           wget https://drive.ourfor.top/tools/upload_session.py -O /tmp/upload.py
           find ${{ inputs.repo_id }} -type f | xargs -I % echo -e 'https://drive.ourfor.top/od_bot/model/%\n out=%' > url.txt
           cp url.txt ${{ inputs.repo_id }}/manifest.txt
-          rclone move ${{ inputs.repo_id }} OneDrive-Bot:/model/
+          rclone move -P ${{ inputs.repo_id }} OneDrive-Bot:/model/
           # find ${{ inputs.repo_id }} -type f | xargs -I % python /tmp/upload.py --url 'https://drive.ourfor.top/od_bot/model/%' --token '${{ secrets.UPLOAD_SECRET }}' --file '%'
 
           
