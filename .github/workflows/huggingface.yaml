@@ -9,7 +9,7 @@ on:
 
 jobs:
   params:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Download using huggingface-cli
         if: ${{ inputs.repo_id != '' }}
