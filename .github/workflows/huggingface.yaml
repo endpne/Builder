@@ -9,7 +9,7 @@ on:
 
 jobs:
   params:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Download using huggingface-cli
         if: ${{ inputs.repo_id != '' }}
@@ -29,7 +29,8 @@ jobs:
           wget https://drive.ourfor.top/tools/upload_session.py -O /tmp/upload.py
           find ${{ inputs.repo_id }} -type f | xargs -I % echo -e 'https://drive.ourfor.top/od_bot/model/%\n out=%' > url.txt
           cp url.txt ${{ inputs.repo_id }}/manifest.txt
-          find ${{ inputs.repo_id }} -type f | xargs -I % python /tmp/upload.py --url 'https://drive.ourfor.top/od_bot/model/%' --token '${{ secrets.UPLOAD_SECRET }}' --file '%'
+          rclone move ${{ inputs.repo_id }} OneDrive-Bot:/model/
+          # find ${{ inputs.repo_id }} -type f | xargs -I % python /tmp/upload.py --url 'https://drive.ourfor.top/od_bot/model/%' --token '${{ secrets.UPLOAD_SECRET }}' --file '%'
 
           
       - name: Upload a Build Artifact
