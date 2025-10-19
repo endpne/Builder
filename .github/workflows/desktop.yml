@@ -95,6 +95,7 @@ jobs:
             /p:GenerateAppxPackageOnBuild=true `
             --restore
           cd .\Desktop
+          .\merge_zip.ps1
           .\merge_appx.ps1
         shell: pwsh
 
@@ -110,6 +111,8 @@ jobs:
           version_code="$(git rev-list --count HEAD)"
           buildtime=$(date '+%Y%m%d.%H%M')
           mkdir -p Desktop/Publish
+          ls Desktop/AppPackages/
+          ls 
           cp "Desktop/AppPackages/iPlayX_1.0.${version_code}.0.msixbundle" Desktop/Publish/
           python -m pip install requests
           python ./scripts/upload.py --url "https://drive.ourfor.top/od_bot/build/iPlay/1.0.${version_code}.0/iPlay_1.0.${version_code}.0.msixbundle" \
