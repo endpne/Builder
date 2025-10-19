@@ -111,12 +111,18 @@ jobs:
           version_code="$(git rev-list --count HEAD)"
           buildtime=$(date '+%Y%m%d.%H%M')
           mkdir -p Desktop/Publish
-          ls Desktop/AppPackages/
-          ls 
+          cp "AppPackages\ZipPackages\iPlayX_1.0.${version_code}.0_ARM64_Sideload.zip" Desktop/Publish/
+          cp "AppPackages\ZipPackages\iPlayX_1.0.${version_code}.0_x64_Sideload.zip" Desktop/Publish/
           cp "Desktop/AppPackages/iPlayX_1.0.${version_code}.0.msixbundle" Desktop/Publish/
           python -m pip install requests
           python ./scripts/upload.py --url "https://drive.ourfor.top/od_bot/build/iPlay/1.0.${version_code}.0/iPlay_1.0.${version_code}.0.msixbundle" \
             --file "$PWD/Desktop/AppPackages/iPlayX_1.0.${version_code}.0.msixbundle" \
+            --token "${{ secrets.CLIENT_ID }}"
+          python ./scripts/upload.py --url "https://drive.ourfor.top/od_bot/build/iPlay/1.0.${version_code}.0/iPlayX_1.0.${version_code}.0_ARM64_Sideload.zip" \
+            --file "$PWD/Desktop/AppPackages/iPlayX_1.0.${version_code}.0_ARM64_Sideload.zip" \
+            --token "${{ secrets.CLIENT_ID }}"
+          python ./scripts/upload.py --url "https://drive.ourfor.top/od_bot/build/iPlay/1.0.${version_code}.0/iPlayX_1.0.${version_code}.0_x64_Sideload.zip" \
+            --file "$PWD/Desktop/AppPackages/iPlayX_1.0.${version_code}.0_x64_Sideload.zip" \
             --token "${{ secrets.CLIENT_ID }}"
           ls Desktop/Publish
         shell: bash
