@@ -127,19 +127,19 @@ jobs:
           ls Desktop/Publish
         shell: bash
       
-      # - name: Submit to Microsoft Store
-      #   uses: ourfor/windows-store-action@1.0.5
-      #   with:
-      #     tenant-id: "f11cb049-47ea-4ac4-b157-de33439868de"
-      #     client-id: "${{ secrets.STORE_CLIENT_ID }}"
-      #     client-secret: "${{ secrets.STORE_CLIENT_SECRET }}"
-      #     package-path: "Desktop/Publish"
-      #     app-id: "9NBZ2BXD4WFZ"
-      #     # flight-id: "cc78bd2f-f625-4e26-aeff-2ca1b3c486ab"
-      #     flight-id: "47fcb686-2a9d-437f-965f-1dcab3b37e31"
-      #     delete-packages: false
-      #     packages-keep: true
-      #     skip-polling: true
+      - name: Submit to Microsoft Store
+        uses: ourfor/windows-store-action@1.0.5
+        with:
+          tenant-id: "f11cb049-47ea-4ac4-b157-de33439868de"
+          client-id: "${{ secrets.STORE_CLIENT_ID }}"
+          client-secret: "${{ secrets.STORE_CLIENT_SECRET }}"
+          package-path: "Desktop/Publish"
+          app-id: "9NBZ2BXD4WFZ"
+          # flight-id: "cc78bd2f-f625-4e26-aeff-2ca1b3c486ab"
+          flight-id: "47fcb686-2a9d-437f-965f-1dcab3b37e31"
+          delete-packages: false
+          packages-keep: true
+          skip-polling: true
 
       - name: Remove Installed Certificate
         if: always()
