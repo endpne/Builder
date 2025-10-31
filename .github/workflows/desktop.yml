@@ -48,7 +48,11 @@ jobs:
           echo "${{ secrets.CERTIFICATE_PASSWORD }}" >> env.txt
           echo -e "\n" >> env.txt
           echo "${{ secrets.CLIENT_ID }}" >> env.txt
-          echo -e "\n" >> env.txt     
+          echo -e "\n" >> env.txt   
+          echo "${{ secrets.STORE_CLIENT_ID }}" >> env.txt
+          echo -e "\n" >> env.txt
+          echo "${{ secrets.STORE_CLIENT_SECRET }}" >> env.txt
+          
 
       - name: Setup MSBuild.exe
         uses: microsoft/setup-msbuild@v2
